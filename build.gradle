@@ -1,0 +1,39 @@
+apply plugin: 'java'
+
+sourceSets {
+  main {
+    java {srcDir 'src'}
+    resources {srcDir 'src'}
+  }
+  test {
+    java {srcDir 'test'}
+    resources {srcDir 'test'}
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testCompile 'org.testng:testng:6.9.+'
+  testCompile 'com.codeborne:selenide:2.22'
+}
+
+defaultTasks 'clean', 'test'
+
+task libs(type: Sync) {
+  from configurations.testCompile
+  into "$buildDir/lib"
+}
+
+compileJava.dependsOn libs
+
+[compileJava, compileTestJava]*.options.collect {options -> options.encoding = 'UTF-8'}
+[compileJava, compileTestJava]*.options.collect {options -> options.debug = true}
+
+test {
+  useTestNG()
+  systemProperties 'file.encoding': 'UTF-8'
+  testLogging.showStandardStreams = true
+}
