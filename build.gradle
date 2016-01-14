@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
   testCompile 'org.testng:testng:6.9.+'
-  testCompile 'com.codeborne:selenide:2.22'
+  testCompile 'com.codeborne:selenide:3.0'
 }
 
 defaultTasks 'clean', 'test'
